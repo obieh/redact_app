@@ -35,8 +35,8 @@ document.getElementById("redactButton").addEventListener("click", function () {
     document.getElementById("redactedText").textContent = redactedText;
 
     //Display counts
-    const counts = ` scanned words: ${scannedWords.lenght}, matched words: ${matchedWords} character scrammbled: ${charScrambled} time: ${timeUsed} seconds`;
-    document.getElementById("counts").textContent = counts;
+    //const counts = ` scanned words: ${scannedWords.lenght}, matched words: ${matchedWords} character scrammbled: ${charScrambled} time: ${timeUsed} seconds`;
+    //document.getElementById("counts").textContent = counts;
     
 });
 
