@@ -1,0 +1,72 @@
+document.getElementById("redactButton").addEventListener("click", function () {
+    const startTime = performance.now(); // Start timing
+    const originalText = document.getElementById("originalText").value;
+    const wordsToRedact = document.getElementById("wordsToRedact").value.split(" ");
+    let redactedText = originalText;
+
+    let wordsScanned = 0;
+    let wordsMatched = 0;
+    let charactersScrambled = 0;
+
+    wordsToRedact.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, "gi");
+        const matches = redactedText.match(regex);
+        if (matches) {
+            wordsMatched += matches.length;
+            charactersScrambled += matches.reduce((total, match) => total + match.length, 0);
+            redactedText = redactedText.replace(regex, '*'.repeat(word.length));
+        }
+    });
+
+    const endTime = performance.now(); // Stop timing
+    const elapsedTime = ((endTime - startTime) / 1000).toFixed(2); // Time in seconds
+
+    document.getElementById("redactedText").textContent = redactedText;
+
+    // Display stats
+    const stats = `Words Scanned: ${wordsScanned}, Words Matched: ${wordsMatched}, Characters Scrambled: ${charactersScrambled}, Time Taken: ${elapsedTime} seconds`;
+    document.getElementById("stats").textContent = stats;
+});
+
+
+document.getElementById("resetButton").addEventListener("click", function () {
+    document.getElementById("originalText").value = "";
+    document.getElementById("wordsToRedact").value = "";
+    document.getElementById("redactedText").textContent = "";
+    document.getElementById("stats").textContent = "";
+});
+
+
+===============================================================================================================================
+document.getElementById("redactButton").addEventListener("click", function () {
+    const startTime = performance.now(); // Start timing
+    const originalText = document.getElementById("originalText").value;
+    const wordsToRedact = document.getElementById("wordsToRedact").value.split(" ");
+    const replacementString = document.getElementById("replacementString").value; // Get the user-specified replacement string
+    let redactedText = originalText;
+
+    let wordsScanned = 0;
+    let wordsMatched = 0;
+    let charactersScrambled = 0;
+
+    wordsToRedact.forEach(word => {
+        const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
+        const regex = new RegExp(`\\b${escapedWord}\\b`, "gi");
+        const matches = redactedText.match(regex);
+        if (matches) {
+            wordsMatched += matches.length;
+            charactersScrambled += matches.reduce((total, match) => total + match.length, 0);
+            redactedText = redactedText.replace(regex, replacementString.repeat(word.length)); // Use user-specified replacement string
+        }
+    });
+
+    const endTime = performance.now(); // Stop timing
+    const elapsedTime = ((endTime - startTime) / 1000).toFixed(2); // Time in seconds
+
+    document.getElementById("redactedText").textContent = redactedText;
+
+    // Display stats
+    const stats = `Words Scanned: ${wordsScanned}, Words Matched: ${wordsMatched}, Characters Scrambled: ${charactersScrambled}, Time Taken: ${elapsedTime} seconds`;
+    document.getElementById("stats").textContent = stats;
+});
+
